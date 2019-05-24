@@ -5,6 +5,13 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 import router from './router.js';
 
+// 导入格式化时间的插件
+import moment from 'moment';
+// 定义全局过滤器
+Vue.filter('dataFormat', function(dataStr, pattern="YYYY-MM-DD HH:mm:ss") {
+  return moment(dataStr).format(pattern);
+})
+
 // 导入 axios
 import axios from 'axios';
 import VueAxios from 'vue-axios';
@@ -18,10 +25,11 @@ import './lib/mui/css/icons-extra.css';
 import app from './App.vue';
 
 // 按需导入 Mint-UI 中的组件
-import { Header, Swipe, SwipeItem } from 'mint-ui';
+import { Header, Swipe, SwipeItem, Button } from 'mint-ui';
 Vue.component(Header.name, Header);
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
+Vue.component(Button.name, Button);
 
 let vm = new Vue({
   el: "#app",
