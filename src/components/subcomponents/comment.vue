@@ -2,8 +2,8 @@
   <div class="cmt-container">
     <h3>发表评论</h3>
     <hr>
-    <textarea placeholder="请输入要评论的内容（最多吐槽120字）" maxlength="120"></textarea>
-    <mt-button type="primary" size="large">发表评论</mt-button>
+    <textarea placeholder="请输入要评论的内容（最多吐槽120字）" maxlength="120" v-model="msg" @keyup.enter="postComment"></textarea>
+    <mt-button type="primary" size="large" @click="postComment">发表评论</mt-button>
 
     <div class="cmt-list">
       <div class="cmt-item" v-for="(item, index) in commentList" :key="item.id">
@@ -26,8 +26,9 @@ import { Toast } from 'mint-ui';
 export default {
   data() {
     return {
-      commentList: [],
-      pageIndex: 1,
+      commentList: [],  // 所有评论的数据
+      pageIndex: 1,  // 默认展示第一页数据
+      msg: '',  // 评论输入的内容
     }
   },
   methods: {
@@ -44,6 +45,15 @@ export default {
       this.pageIndex++;
       this.getComments();
     },
+    postComment() {
+      // 评论内容校验
+      if (this.msg.trim().length === 0) {
+        return Toast("评论内容为空!");
+      }
+      let cmt = { add_time: new Date(), user_name: 'usankii', content: this.msg.trim() };
+      this.commentList.unshift(cmt);
+      this.msg = "";
+    }
   },
   created() {
     this.getComments();
